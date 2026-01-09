@@ -1,58 +1,76 @@
-from flask import Flask, render_template, jsonify, request
-from src.helper import download_hugging_face_embeddings
-from retrieve_result import retreival_result, result_after_retreival
-from langchain.vectorstores import Pinecone as LangchainPinecone  # Using alias for LangChain Pinecone
-
+from flask import Flask, render_template, request
 from dotenv import load_dotenv
 import os
 
-app = Flask(__name__)
+from langchain_pinecone import PineconeVectorStore
+from src.helper import download_embeddings
+from retrieve_result import retrieval_result, result_after_retrieval
 
+# -------------------------
+# App & Environment Setup
+# -------------------------
+app = Flask(__name__)
 load_dotenv()
 
-PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
-GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
+PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-os.environ["PINECONE_API_KEY"] = PINECONE_API_KEY
-os.environ["OPENAI_API_KEY"] = GROQ_API_KEY
+if not PINECONE_API_KEY:
+    raise ValueError("PINECONE_API_KEY not set")
 
-embeddings = download_hugging_face_embeddings()
+if not GROQ_API_KEY:
+    raise ValueError("GROQ_API_KEY not set")
 
-index_name = "medical-vector"
+# -------------------------
+# Load embeddings & vector store
+# -------------------------
+embeddings = download_embeddings()
 
-# Embed each chunk and upsert the embeddings into your Pinecone index.
-docsearch = LangchainPinecone.from_existing_index(index_name, embeddings)
+INDEX_NAME = "medical-vector"
 
+docsearch = PineconeVectorStore.from_existing_index(
+    index_name=INDEX_NAME,
+    embedding=embeddings
+)
+
+# -------------------------
+# Routes
+# -------------------------
 @app.route("/")
 def index():
-    return render_template('chat.html')
+    return render_template("chat.html")
 
 
-@app.route("/get", methods=["GET", "POST"])
+@app.route("/get", methods=["POST"])
 def chat():
-    msg = request.form["msg"]
-    input = str.lower(msg)
-    print(input)
-    docs = retreival_result(PINECONE_API_KEY,input,docsearch)
-    # Process the documents and generate a response
-    response = result_after_retreival(GROQ_API_KEY,input,docs)
-    # Concatenate the response into a single string
-    full_response = ''.join(response)
-    print(full_response)
-    # Handle general responses based on content
-    if any(greeting in input for greeting in ["hi", "hello", "hey"]):
+    user_query = request.form["msg"].lower().strip()
+    print("User query:", user_query)
+
+    # Greeting handling
+    if user_query in ["hi", "hello", "hey"]:
         return "Hello! How can I assist you today?"
-    elif any(farewell in input for farewell in ["bye", "goodbye"]):
+    if user_query in ["bye", "goodbye"]:
         return "Goodbye! Take care."
-    elif "thanks" in input or "thank you" in input:
+    if "thank" in user_query:
         return "You're welcome! Let me know if you have any other questions."
-    elif full_response:  # If there is a relevant response
-        return full_response
-    else:  # Fallback response for unclear queries
-        return "I'm sorry, I'm not sure about that."
+
+    # -------- RAG Pipeline --------
+    docs = retrieval_result(user_query, docsearch)
+
+    if not docs:
+        return "I'm sorry, I couldn't find relevant information for that."
+
+    response = result_after_retrieval(
+        api_key=GROQ_API_KEY,
+        query=user_query,
+        docs=docs
+    )
+
+    return response
 
 
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port= 8081, debug= True)
+# -------------------------
+# Run App
+# -------------------------
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8081, debug=True)

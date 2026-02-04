@@ -1,9 +1,5 @@
-# GaleMed Insights – A Gen-AI RAG-Based Medical Chatbot Using Pinecone and LLMs
+# Gen-AI RAG-Based Medical Chatbot
 
-
-# ![img](static/images/bookcover.png)
-
-# Credits: [The Gale Encylopedia of Medicine](https://www.academia.edu/32752835/The_GALE_ENCYCLOPEDIA_of_MEDICINE_SECOND_EDITION)
 
 
 
@@ -54,8 +50,6 @@ As medical knowledge evolves, GaleMed Insights can easily be updated with new da
 
 ![img](static/images/rag_image.png)
 
-# Credits: [EagerWorks](https://eagerworks.com/blog/retrieval-augmented-generation)
-
 ### Document Reading with PyPDF:
 The project utilizes the pyPDF library to read and extract data from The Gale Encyclopedia of Medicine. This library efficiently handles large documents, facilitating the structured extraction of valuable medical information.
 
@@ -95,7 +89,6 @@ def text_split(extracted_data):
 - To facilitate meaningful queries and responses, we employ the HuggingFaceEmbeddings model (sentence-transformers/all-MiniLM-L6-v2).
 
 ![img](static/images/huggingface.png)
-# Credits: [Hugging Face](https://discuss.huggingface.co/t/get-word-embeddings-from-transformer-model/6929)
 
 - This model generates semantic embeddings, which capture the context and meaning of the text beyond surface-level words.  These embeddings enable GaleMed to comprehend user queries more effectively and retrieve the most relevant information.
 
@@ -182,10 +175,6 @@ As you can see it does fetch relevant information for the first three except the
 
 
 ### Utilizing LLM for Response Formatting:
-
- # ![img](static/images/llama-2-7b.jpg)
-
-# Credits: [Medium](https://medium.com/@dmitri.mahayana/creating-virtual-assistance-using-with-llama-2-7b-chat-model-9f693c8250ee)
 
 To enhance the clarity and readability of the information returned to users, we utilize a large language model (LLM) based on the LLaMA architecture (CTransformers). This offline version processes the extracted data and formats it into coherent responses, making complex medical information accessible and understandable.
 

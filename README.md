@@ -1,38 +1,12 @@
 # GaleMed Insights – A Gen-AI RAG-Based Medical Chatbot Using Pinecone and LLMs
 
 
-![img](static/images/bookcover.png)
+# ![img](static/images/bookcover.png)
 
-Credits: [The Gale Encylopedia of Medicine](https://www.academia.edu/32752835/The_GALE_ENCYCLOPEDIA_of_MEDICINE_SECOND_EDITION)
+# Credits: [The Gale Encylopedia of Medicine](https://www.academia.edu/32752835/The_GALE_ENCYCLOPEDIA_of_MEDICINE_SECOND_EDITION)
 
 
-<a href="https://langchain.readthedocs.io/en/latest/">
-    <img alt="LangChain" src="https://img.shields.io/badge/LangChain-FF5733?logo=langchain&logoColor=white">
-</a>
-<a href="https://www.groq.com/">
-    <img alt="Groq" src="https://img.shields.io/badge/Groq-00BFFF?logo=groq&logoColor=white">
-</a>
-<a href="https://www.pinecone.io/">
-    <img alt="Pinecone" src="https://img.shields.io/badge/Pinecone-3C3F4D?logo=pinecone&logoColor=white">
-</a>
-<a href="https://huggingface.co/">
-    <img alt="Hugging Face" src="https://img.shields.io/badge/Hugging%20Face-F50057?logo=huggingface&logoColor=white">
-</a>
-<a href="https://github.com/">
-    <img alt="GitHub" src="https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white">
-</a>
-<a href="https://www.python.org/">
-    <img alt="Python" src="https://img.shields.io/badge/Python-3B7EAB?logo=python&logoColor=white">
-</a>
-<a href="https://github.com/facebookresearch/llama">
-    <img alt="LLaMA" src="https://img.shields.io/badge/LLaMA-6A0DAD?logo=llama&logoColor=white">
-</a>
-<a href="https://huggingface.co/docs/transformers/model_doc/ctransformers">
-    <img alt="CTransformers" src="https://img.shields.io/badge/CTransformers-4B0082?logo=transformers&logoColor=white">
-</a>
-<a href="https://pypdf.com/">
-    <img alt="PyPDF" src="https://img.shields.io/badge/PyPDF-FF8C00?logo=python&logoColor=white">
-</a>
+
 
 ---
 ## Project Overview
@@ -80,7 +54,7 @@ As medical knowledge evolves, GaleMed Insights can easily be updated with new da
 
 ![img](static/images/rag_image.png)
 
-Credits: [EagerWorks](https://eagerworks.com/blog/retrieval-augmented-generation)
+# Credits: [EagerWorks](https://eagerworks.com/blog/retrieval-augmented-generation)
 
 ### Document Reading with PyPDF:
 The project utilizes the pyPDF library to read and extract data from The Gale Encyclopedia of Medicine. This library efficiently handles large documents, facilitating the structured extraction of valuable medical information.
@@ -121,7 +95,7 @@ def text_split(extracted_data):
 - To facilitate meaningful queries and responses, we employ the HuggingFaceEmbeddings model (sentence-transformers/all-MiniLM-L6-v2).
 
 ![img](static/images/huggingface.png)
-Credits: [Hugging Face](https://discuss.huggingface.co/t/get-word-embeddings-from-transformer-model/6929)
+# Credits: [Hugging Face](https://discuss.huggingface.co/t/get-word-embeddings-from-transformer-model/6929)
 
 - This model generates semantic embeddings, which capture the context and meaning of the text beyond surface-level words.  These embeddings enable GaleMed to comprehend user queries more effectively and retrieve the most relevant information.
 
@@ -135,9 +109,6 @@ def download_hugging_face_embeddings():
 
 ### Building a Vector Database with Pinecone:
 
-![img](static/images/pinecone.jpeg)
-![img](static/images/pinecone-ogimage.jpg)
-Credits:[Pinecone](https://www.pinecone.io/)
 
 - The next step involves creating a vector database using Pinecone. 
 
@@ -212,9 +183,9 @@ As you can see it does fetch relevant information for the first three except the
 
 ### Utilizing LLM for Response Formatting:
 
-![img](static/images/llama-2-7b.jpg)
+ # ![img](static/images/llama-2-7b.jpg)
 
-Credits: [Medium](https://medium.com/@dmitri.mahayana/creating-virtual-assistance-using-with-llama-2-7b-chat-model-9f693c8250ee)
+# Credits: [Medium](https://medium.com/@dmitri.mahayana/creating-virtual-assistance-using-with-llama-2-7b-chat-model-9f693c8250ee)
 
 To enhance the clarity and readability of the information returned to users, we utilize a large language model (LLM) based on the LLaMA architecture (CTransformers). This offline version processes the extracted data and formats it into coherent responses, making complex medical information accessible and understandable.
 
@@ -242,23 +213,7 @@ Compared to ChatGPT Response:
 
 - Further we also handled cases where the query and the results got from the vector DB are not relevant.
 
-### Flask Application Development:
 
-![img](static/images/Flask_logo.svg)
-
-Credits: [Flask](https://flask.palletsprojects.com/en/3.0.x/)
-
-Finally, we aim to develop a Flask web application that serves as the interface for GaleMed. This application will allow users to interact with the chatbot seamlessly, posing questions and receiving comprehensive answers based on the medical encyclopedia.
-
-![img](static/images/screenshot1.png)
-![img](static/images/screenshot2.png)
-![img](static/images/screenshot3.png)
-![img](static/images/screenshot4.png)
-![img](static/images/screenshot5.png)
-![img](static/images/screenshot6.png)
-
-
----
 ## Real-World Use Cases of RAG Methodology in Other Fields
 This RAG-based approach is not only useful in healthcare but also has real-world applications in various fields, such as:
 
